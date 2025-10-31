@@ -12,13 +12,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Hyperf\HttpMessage\Stream\SwooleStream;
 use App\Processors\ImageProcessor;
+use Hyperf\HttpServer\Contract\ResponseInterface;
+use Psr\Http\Message\MessageInterface;
 
 class IndexController extends AbstractController
 {
-    public function index(ImageProcessor $imageProcessor)
+    public function __construct(private ImageProcessor $imageProcessor)
     {
-        $imageProcessor->test();
+    }
+
+    public function index(): array
+    {
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
 
@@ -26,5 +32,14 @@ class IndexController extends AbstractController
             'method' => $method,
             'message' => "Hello {$user}.",
         ];
+    }
+
+    public function resize(ResponseInterface $response): MessageInterface|ResponseInterface
+    {
+        $url = $this->request->input('url', 'https://images.biblioglobus.ru/bgagentdb/images/sletat/143254/143254_0.jpg');
+        [$image, $time] = $this->imageProcessor->test($url);
+
+        return $response->withHeader('Content-Type', 'image/webp')
+            ->withBody(new SwooleStream($image));
     }
 }

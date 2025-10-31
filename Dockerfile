@@ -4,6 +4,7 @@ WORKDIR /var/www/html
 
 RUN apk add --no-cache  \
     vips vips-dev \
+    libheif \
     php83-ffi \
     && rm -rf /var/cache/apk/*
 

@@ -3,48 +3,48 @@ declare(strict_types=1);
 
 namespace App\Processors;
 
+use App\Helpers\HashHelper;
 use Co\Http\Client;
-use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\CacheManager;
+use Hyperf\Guzzle\ClientFactory;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
+use Jcupitt\Vips;
 
 class ImageProcessor
 {
-    private $cache;
-    private $httpClient;
+    private ImageManager $imageManager;
 
-    public function __construct(CacheManager $cache)
+    public function __construct(
+        private readonly CacheManager $cache,
+        private readonly ClientFactory $clientFactory,
+    )
     {
-        $this->cache = $cache;
-        $this->initializeHttpClient();
+        $this->imageManager = ImageManager::withDriver(VipsDriver::class);
     }
 
-    private function initializeHttpClient(): void
+    public function test(string $url, int $width = 600, $q = 85,): array
     {
-        // Swoole HTTP client будет создаваться для каждого запроса
+        $down = $this->download($url);
+        $start = microtime(true);
+        $read = $this->imageManager->read($down);
+        $buffer = $read->scale(width: $width)->toWebp($q)->toString();
+
+        return [$buffer, microtime(true) - $start];
     }
 
-    public function test()
-    {
-        $url = 'https://images.biblioglobus.ru/bgagentdb/images/sletat/143254/143254_0.jpg';
-        $manager = ImageManager::withDriver(VipsDriver::class);
-        $read = $manager->read($this->download($url));
-        $read->scale(width: 300);
-        $read->toAvif()->save('images/foo.png');
-    }
-
-    #[Cacheable(prefix: "image", ttl: 30)]
     private function download(string $url): string
     {
-        $key = md5($url);
+        $key = HashHelper::hash($url);
         if ($image = $this->cache->getDriver()->get($key)) {
             return $image;
         }
 
-        $image = file_get_contents($url);
+        $client = $this->clientFactory->create();
+        $image = $client->get($url)->getBody()->getContents();
 
         $this->cache->getDriver()->set($key, $image, 30);
+
         return $image;
     }
 

@@ -2,10 +2,10 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: kemel91/resize:0.1
     working_dir: /var/www/html
     ports:
-      - "8000:9501"
+      - "80:9501"
     volumes:
       - ./backend:/var/www/html
 

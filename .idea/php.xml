@@ -10,9 +10,101 @@
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/backend/vendor/composer" />
+      <path value="$PROJECT_DIR$/backend/vendor/fig/http-message-util" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/http-server-handler" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/http-server-middleware" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/backend/vendor/swow/psr7-plus" />
+      <path value="$PROJECT_DIR$/backend/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/backend/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/database" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/pipeline" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/contract" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/collection" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/coordinator" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/serializer" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/di" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/context" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/model-listener" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/logger" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/memory" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/tappable" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/http-server" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/cache" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/coroutine" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/framework" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/config" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/redis" />
+      <path value="$PROJECT_DIR$/backend/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/codec" />
+      <path value="$PROJECT_DIR$/backend/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/dispatcher" />
+      <path value="$PROJECT_DIR$/backend/vendor/carbonphp/carbon-doctrine-types" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/server" />
+      <path value="$PROJECT_DIR$/backend/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/http-message" />
+      <path value="$PROJECT_DIR$/backend/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/exception-handler" />
+      <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/code-parser" />
+      <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/conditionable" />
+      <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/engine-contract" />
+      <path value="$PROJECT_DIR$/backend/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/support" />
+      <path value="$PROJECT_DIR$/backend/vendor/intervention/image-driver-vips" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/macroable" />
+      <path value="$PROJECT_DIR$/backend/vendor/intervention/gif" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/stdlib" />
+      <path value="$PROJECT_DIR$/backend/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/command" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/db-connection" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/engine" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/stringable" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/pool" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/event" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/process" />
+      <path value="$PROJECT_DIR$/backend/vendor/hyperf/guzzle" />
+      <path value="$PROJECT_DIR$/backend/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/backend/vendor/php-di/phpdoc-reader" />
+      <path value="$PROJECT_DIR$/backend/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/backend/vendor/jcupitt/vips" />
+      <path value="$PROJECT_DIR$/backend/vendor/laminas/laminas-mime" />
+      <path value="$PROJECT_DIR$/backend/vendor/laminas/laminas-stdlib" />
+      <path value="$PROJECT_DIR$/backend/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/polyfill-mbstring" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
+  </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/backend/phpunit.xml.dist" custom_loader_path="$PROJECT_DIR$/backend/vendor/autoload.php" use_configuration_file="true" />
+    </phpunit_settings>
   </component>
   <component name="PsalmOptionsConfiguration">
     <option name="transferred" value="true" />

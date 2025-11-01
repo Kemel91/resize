@@ -6,6 +6,9 @@ services:
     working_dir: /var/www/html
     ports:
       - "80:9501"
+    volumes:
+      - ./backend:/var/www/html
+      - ./config/php.ini:/etc/php83/conf.d/local.ini
 
   redis:
     image: redis:8.2.2-bookworm

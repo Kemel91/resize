@@ -10,12 +10,14 @@ RUN apk add --no-cache  \
 
 COPY ./backend/composer.json ./backend/composer.lock /var/www/html/
 
-# Копируем остальной код приложения
-COPY ./backend /var/www/html/
-
 # Устанавливаем зависимости PHP
 RUN composer install --no-dev -o
 
+# Копируем остальной код приложения
+COPY ./backend /var/www/html/
+COPY entrypoint.sh /
 EXPOSE 9501
 
-ENTRYPOINT ["php", "/var/www/html/bin/hyperf.php", "start"]
+#ENTRYPOINT ["php", "/var/www/html/bin/hyperf.php", "start"]
+ENTRYPOINT []
+CMD ["/entrypoint.sh"]

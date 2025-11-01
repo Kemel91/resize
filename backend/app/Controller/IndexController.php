@@ -37,7 +37,9 @@ class IndexController extends AbstractController
     public function resize(ResponseInterface $response): MessageInterface|ResponseInterface
     {
         $url = $this->request->input('url', 'https://images.biblioglobus.ru/bgagentdb/images/sletat/143254/143254_0.jpg');
-        [$image, $time] = $this->imageProcessor->test($url);
+        $width = $this->request->input('width', 600);
+        $q = $this->request->input('q', 85);
+        [$image, $time] = $this->imageProcessor->test($url, (int) $width, (int) $q);
 
         return $response->withHeader('Content-Type', 'image/webp')
             ->withBody(new SwooleStream($image));

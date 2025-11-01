@@ -15,4 +15,5 @@ then
   php artisan key:generate
 fi
 
+composer du
 php /var/www/html/bin/hyperf.php start

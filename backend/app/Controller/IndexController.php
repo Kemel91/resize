@@ -12,17 +12,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Processors\ImageVipsProcessor;
 use Hyperf\HttpMessage\Stream\SwooleStream;
-use App\Processors\ImageProcessor;
+use App\Processors\ImageInterventionProcessor;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Http\Message\MessageInterface;
 
 class IndexController extends AbstractController
 {
-    public function __construct(private ImageProcessor $imageProcessor)
-    {
-    }
-
     public function index(): array
     {
         $user = $this->request->input('user', 'Hyperf');
@@ -34,14 +31,21 @@ class IndexController extends AbstractController
         ];
     }
 
-    public function resize(ResponseInterface $response): MessageInterface|ResponseInterface
+    public function resize(
+        ResponseInterface $response,
+        //ImageInterventionProcessor $imageProcessor,
+        ImageVipsProcessor $imageVipsProcessor,
+    ): MessageInterface|ResponseInterface
     {
         $url = $this->request->input('url', 'https://images.biblioglobus.ru/bgagentdb/images/sletat/143254/143254_0.jpg');
         $width = $this->request->input('width', 600);
         $q = $this->request->input('q', 85);
-        [$image, $time] = $this->imageProcessor->test($url, (int) $width, (int) $q);
+        $cache = $this->request->input('cache', false);
+       // [$image, $time] = $imageProcessor->process($url, (int) $width, (int) $q);
+        $resizedImage = $imageVipsProcessor->process($url, (int) $width, (int) $q, (bool) $cache);
 
-        return $response->withHeader('Content-Type', 'image/webp')
-            ->withBody(new SwooleStream($image));
+        return $response->withHeader('Content-Type', $resizedImage->mimeType)
+            ->withHeader('Resized-time', $resizedImage->time)
+            ->withBody(new SwooleStream($resizedImage->content));
     }
 }

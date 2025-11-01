@@ -8,14 +8,11 @@ RUN apk add --no-cache  \
     php83-ffi \
     && rm -rf /var/cache/apk/*
 
+COPY ./backend/composer.json ./backend/composer.lock /var/www/html
+RUN composer install --no-scripts --no-progress --no-interaction --download-only
 
-COPY ./backend/composer.json ./backend/composer.lock /var/www/html/
-
-# Копируем остальной код приложения
-COPY ./backend /var/www/html/
-
-# Устанавливаем зависимости PHP
-RUN composer install --no-dev -o
+COPY ./backend /var/www/html
+RUN composer install --no-progress --no-interaction --no-dev --classmap-authoritative
 
 EXPOSE 9501
 

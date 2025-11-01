@@ -11,11 +11,11 @@ RUN apk add --no-cache  \
 
 COPY ./backend/composer.json ./backend/composer.lock /var/www/html/
 
-# Устанавливаем зависимости PHP
-RUN composer install --no-dev -o
-
 # Копируем остальной код приложения
 COPY ./backend /var/www/html/
+
+# Устанавливаем зависимости PHP
+RUN composer install --no-dev -o
 
 EXPOSE 9501
 

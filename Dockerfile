@@ -18,6 +18,5 @@ COPY ./backend /var/www/html/
 COPY entrypoint.sh /
 EXPOSE 9501
 
-#ENTRYPOINT ["php", "/var/www/html/bin/hyperf.php", "start"]
 ENTRYPOINT []
 CMD ["/entrypoint.sh"]

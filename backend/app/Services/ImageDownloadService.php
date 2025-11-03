@@ -1,15 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Services;
 
 use App\Helpers\HashHelper;
-use Hyperf\Cache\CacheManager;
 use Hyperf\Guzzle\ClientFactory;
+use Psr\SimpleCache\CacheInterface;
 
 readonly class ImageDownloadService
 {
     public function __construct(
-        private CacheManager $cache,
+        private CacheInterface $cache,
         private ClientFactory $clientFactory,
     )
     {
@@ -18,14 +19,14 @@ readonly class ImageDownloadService
     public function download(string $url): string
     {
         $key = HashHelper::hash($url);
-        if ($image = $this->cache->getDriver()->get($key)) {
+        if ($image = $this->cache->get($key)) {
             return $image;
         }
 
         $client = $this->clientFactory->create();
         $image = $client->get($url)->getBody()->getContents();
 
-        $this->cache->getDriver()->set($key, $image, 30);
+        $this->cache->set($key, $image, 5 * 60);
 
         return $image;
     }

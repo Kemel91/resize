@@ -25,6 +25,7 @@
         "hyperf/memory": "~3.1.0",
         "hyperf/process": "~3.1.0",
         "hyperf/redis": "~3.1.0",
+        "hyperf/validation": "^3.1",
         "intervention/image-driver-vips": "^1.0"
     },
     "require-dev": {

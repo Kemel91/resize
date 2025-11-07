@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Exception\Handler;
 
-use App\Exception\Http\HttpResponseException;
+use App\Exception\Http\JsonErrorResponseException;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Stream\SwooleStream;
@@ -27,7 +27,7 @@ class AppExceptionHandler extends ExceptionHandler
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
-        if ($throwable instanceof HttpResponseException) {
+        if ($throwable instanceof JsonErrorResponseException) {
             return $response->withHeader('Content-Type', 'application/json')
                 ->withStatus($throwable->getCode())
                 ->withBody(new SwooleStream($throwable->jsonSerialize()));

@@ -4,7 +4,7 @@ namespace App\Exception\Http;
 
 use function json_encode;
 
-class HttpResponseException extends \Exception implements \JsonSerializable
+class JsonErrorResponseException extends \Exception implements \JsonSerializable
 {
     public function __construct(public array $response, int $code = 404, ?\Throwable $previous = null)
     {

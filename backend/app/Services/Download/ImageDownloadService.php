@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Download;
 
 use App\Helpers\HashHelper;
 use Hyperf\Guzzle\ClientFactory;
@@ -24,7 +24,11 @@ readonly class ImageDownloadService
         }
 
         $client = $this->clientFactory->create();
-        $image = $client->get($url)->getBody()->getContents();
+        try {
+            $image = $client->get($url)->getBody()->getContents();
+        } catch (\Throwable) {
+            throw NotFoundImageException::make();
+        }
 
         $this->cache->set($key, $image, 5 * 60);
 

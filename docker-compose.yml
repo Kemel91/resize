@@ -2,9 +2,13 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    build:
+      dockerfile: Dockerfile
+      context: ./
+      target: local
+    container_name: resizer-backend
     ports:
-      - "80:9501"
+      - "9501:9501"
     volumes:
       - ./backend:/var/www/html
 

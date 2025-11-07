@@ -5,11 +5,10 @@ namespace App\Processors;
 
 use App\Helpers\HashHelper;
 use App\Processors\Events\ResizedEvent;
-use App\Services\ImageDownloadService;
+use App\Services\Download\ImageDownloadService;
 use Jcupitt\Vips;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\SimpleCache\CacheInterface;
-
 use function microtime;
 use function strlen;
 

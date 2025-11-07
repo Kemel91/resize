@@ -4,9 +4,16 @@ services:
   app:
     image: kemel91/resize:latest
     ports:
+      - "9501:9501"
+
+  angie:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+      target: angie
+    container_name: resizer-angie
+    ports:
       - "80:9501"
-    volumes:
-      - ./config/php.ini:/etc/php83/conf.d/local.ini
 
   redis:
     image: redis:8.2.2-bookworm

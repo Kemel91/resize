@@ -12,7 +12,6 @@ if [ ! -f .env ]
 then
   echo "setup .env file"
   cp .env.example .env
-  php artisan key:generate
 fi
 
 composer du

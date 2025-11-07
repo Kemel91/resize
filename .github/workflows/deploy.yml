@@ -23,6 +23,7 @@ jobs:
         with:
           file: ./Dockerfile
           context: ./
+          target: production
           push: true
           tags: kemel91/resize:latest
 

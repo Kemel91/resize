@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Processors;
 
-use App\Services\ImageDownloadService;
-use Intervention\Image\ImageManager;
+use App\Services\Download\ImageDownloadService;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
+use Intervention\Image\ImageManager;
 
 class ImageInterventionProcessor implements ImageProcessorInterface
 {

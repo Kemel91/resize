@@ -5,7 +5,7 @@ set -x
 if [ ! -f ./vendor/autoload.php ]
 then
   echo "run composer install for dev environment"
-  composer install --no-dev --no-progress --no-interaction --classmap-authoritative
+  composer install --no-progress --no-interaction --classmap-authoritative
 fi
 
 if [ ! -f .env ]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Request;
 
+use App\Processors\FormatEnum;
 use App\Processors\ResizeInput;
 use Hyperf\Validation\Request\FormRequest;
 
@@ -21,7 +22,7 @@ class ResizeRequest extends FormRequest
             'width' => 'required|integer',
             'height' => 'integer',
             'q' => 'integer|between:0,100',
-            'cache' => 'boolean',
+            'cache' => 'integer',
         ];
     }
 
@@ -32,7 +33,8 @@ class ResizeRequest extends FormRequest
             (int) $this->input('width', 600),
             $this->has('height') ? (int) $this->input('height') : null,
             $this->has('q') ? (int) $this->input('q') : null,
-            $this->has('cache') && $this->input('cache'),
+            $this->has('cache') ? (int) $this->input('cache') : 60 * 60,
+            $this->has('format') ? FormatEnum::fromExtension($this->input('format')) : null,
         );
     }
 }

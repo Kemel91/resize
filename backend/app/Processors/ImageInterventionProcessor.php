@@ -21,7 +21,7 @@ class ImageInterventionProcessor implements ImageProcessorInterface
     {
         $down = $this->imageDownloadService->download($input->url);
         $start = microtime(true);
-        $read = $this->imageManager->read($down);
+        $read = $this->imageManager->read($down->content);
         $buffer = $read->scale(width: $input->width)->toWebp($input->q)->toString();
 
         return new ResizedImage($buffer, 'image/webp', microtime(true) - $start);

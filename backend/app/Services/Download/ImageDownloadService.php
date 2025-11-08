@@ -16,11 +16,11 @@ readonly class ImageDownloadService
     {
     }
 
-    public function download(string $url): string
+    public function download(string $url): Image
     {
         $key = HashHelper::hash($url);
         if ($image = $this->cache->get($key)) {
-            return $image;
+            return new Image($url, $image);
         }
 
         $client = $this->clientFactory->create();
@@ -32,6 +32,6 @@ readonly class ImageDownloadService
 
         $this->cache->set($key, $image, 5 * 60);
 
-        return $image;
+        return new Image($url, $image);
     }
 }

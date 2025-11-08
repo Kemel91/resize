@@ -41,7 +41,7 @@ class IndexController
         $resizedImage = $imageVipsProcessor->process($request->dto());
 
         return $response->withHeader('Content-Type', $resizedImage->mimeType)
-            ->withHeader('Resized-time', $resizedImage->time)
+            ->withHeader('Resized-time', round($resizedImage->time ?? 0.0, 3))
             ->withBody(new SwooleStream($resizedImage->content));
     }
 }

@@ -31,21 +31,17 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
             return new ResizedImage($cached);
         }
 
-        $image = $this->imageDownloadService->download($input->url);
+        $imageDownload = $this->imageDownloadService->download($input->url);
 
         $start = microtime(true);
 
-        $imageBuffer = Vips\Image::newFromBuffer($image->content);
-        if ($imageBuffer->width > $input->width) {
-            $imageCrop = $imageBuffer->thumbnail_image($input->width);
-        } else {
-            $imageCrop = $imageBuffer;
-        }
+        $imageBuffer = Vips\Image::newFromBuffer($imageDownload->content);
+        $imageCrop = $this->cropImage($imageBuffer, $input);
 
-        $imageFormat = $image->getFormat();
+        $imageFormat = $imageDownload->getFormat();
         if ($input->format === null || $input->format === $imageFormat) {
             if ($imageBuffer === $imageCrop) {
-                $buffer = $image->content;
+                $buffer = $imageDownload->content;
             } else {
                 $buffer = $imageCrop->writeToBuffer('.' . $imageFormat->getExtension());
             }
@@ -59,13 +55,22 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
 
         $this->eventDispatcher->dispatch(new ResizedEvent(
             $input->url,
-            $image->getSize(),
+            $imageDownload->getSize(),
             strlen($buffer),
         ));
 
         $mimeType = $input->format?->getMimeType() ?? $imageFormat->getMimeType();
 
         return new ResizedImage($buffer, $mimeType, microtime(true) - $start);
+    }
+
+    private function cropImage(Vips\Image $image, ResizeInput $input): Vips\Image
+    {
+        if ($image->width > $input->width) {
+            return $image->thumbnail_image($input->width);
+        }
+
+        return $image;
     }
 
     private function convertFormat(Vips\Image $image, FormatEnum $format): string

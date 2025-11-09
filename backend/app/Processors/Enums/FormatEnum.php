@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Processors;
+namespace App\Processors\Enums;
 
 enum FormatEnum: string
 {

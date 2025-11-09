@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Processors;
 
+use App\Processors\Dto\ResizedImage;
+use App\Processors\Dto\ResizeInput;
 use App\Services\Download\ImageDownloadService;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
 use Intervention\Image\ImageManager;

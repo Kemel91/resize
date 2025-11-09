@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use App\Processors\FormatEnum;
-use App\Processors\ResizeInput;
+use App\Processors\Dto\ResizeInput;
+use App\Processors\Enums\FormatEnum;
 use Hyperf\Validation\Request\FormRequest;
 
 class ResizeRequest extends FormRequest

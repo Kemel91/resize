@@ -10,26 +10,32 @@ use App\Processors\Enums\FormatEnum;
 use App\Processors\Events\ResizedEvent;
 use App\Processors\Exceptions\UnsupportedFormatImageException;
 use App\Services\Download\ImageDownloadService;
-use Jcupitt\Vips;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\SimpleCache\CacheInterface;
 
 use function microtime;
 use function strlen;
 
-readonly class ImageVipsProcessor implements ImageProcessorInterface
+readonly class InterventionProcessor implements ImageProcessorInterface
 {
+    private ImageManager $imageManager;
+
     public function __construct(
         private ImageDownloadService $imageDownloadService,
         private CacheInterface $cache,
         private EventDispatcherInterface $eventDispatcher,
     )
     {
+        $this->imageManager = ImageManager::withDriver(Driver::class);
     }
 
     public function process(ResizeInput $input): ResizedImage
     {
-        $hash = HashHelper::hash($input->url.$input->width.$input->q.$input->format?->value);
+        $hash = HashHelper::hash(__CLASS__.$input->url.$input->width.$input->q.$input->format?->value);
         if ($input->cache && $cached = $this->cache->get($hash)) {
             return new ResizedImage($cached);
         }
@@ -38,25 +44,20 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
 
         $start = microtime(true);
 
-        $imageBuffer = Vips\Image::newFromBuffer($imageDownload->content, '', ["access" => Vips\Access::SEQUENTIAL]);
-        echo 'From buffer - '.microtime(true) - $start.PHP_EOL;
-        $startCrop = microtime(true);
+        $imageBuffer = $this->imageManager->read($imageDownload->content);
+
         $imageCrop = $this->cropImage($imageBuffer, $input);
-        echo 'Crop - '.microtime(true) - $startCrop.PHP_EOL;
 
         $imageFormat = $imageDownload->getFormat();
-        $startConvert = microtime(true);
         if ($input->format === null || $input->format === $imageFormat) {
             if ($imageBuffer === $imageCrop) {
                 $buffer = $imageDownload->content;
             } else {
-                $buffer = $imageCrop->writeToBuffer('.' . $imageFormat->getExtension());
+                $buffer = $imageCrop->encode()->toString();
             }
         } else {
             $buffer = $this->convertFormat($imageCrop, $input->format);
-            $imageCrop->webpsave('test.webp');
         }
-        echo 'Convert - '.microtime(true) - $startConvert.PHP_EOL;
 
         if ($input->cache) {
             $this->cache->set($hash, $buffer, $input->cache);
@@ -73,12 +74,10 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
         return new ResizedImage($buffer, $mimeType, microtime(true) - $start);
     }
 
-    private function cropImage(Vips\Image $image, ResizeInput $input): Vips\Image
+    private function cropImage(ImageInterface $image, ResizeInput $input): ImageInterface
     {
-        if ($image->width > $input->width) {
-            $newHeight = (int) (($input->width / $image->width) * $image->height);
-
-            return $image->crop(0, 0, $input->width, $newHeight);
+        if ($image->width() > $input->width) {
+            return $image->scale($input->width);
         }
 
         return $image;
@@ -87,17 +86,19 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
     /**
      * @throws UnsupportedFormatImageException
      */
-    private function convertFormat(Vips\Image $image, FormatEnum $format): string
+    private function convertFormat(ImageInterface $image, FormatEnum $format): string
     {
-        return match ($format) {
-            FormatEnum::JPEG => $image->jpegsave_buffer(),
-            FormatEnum::PNG => $image->pngsave_buffer(),
-            FormatEnum::GIF => $image->gifsave_buffer(),
-            FormatEnum::WEBP => $image->webpsave_buffer(),
-            FormatEnum::TIFF => $image->tiffsave_buffer(),
-            FormatEnum::HEIF => $image->heifsave_buffer(),
+        $converted = match ($format) {
+            FormatEnum::JPEG => $image->toJpeg(),
+            FormatEnum::PNG => $image->toPng(),
+            FormatEnum::GIF => $image->toGif(),
+            FormatEnum::WEBP => $image->toWebp(),
+            FormatEnum::TIFF => $image->toTiff(),
+            FormatEnum::HEIF => $image->toHeic(),
             default => throw UnsupportedFormatImageException::make(),
         };
+
+        return $converted->toString();
     }
 
 }

@@ -3,7 +3,7 @@
 namespace App\Processors\Exceptions;
 
 use App\Exception\Http\JsonErrorResponseException;
-use App\Processors\FormatEnum;
+use App\Processors\Enums\FormatEnum;
 
 class UnsupportedFormatImageException extends JsonErrorResponseException
 {

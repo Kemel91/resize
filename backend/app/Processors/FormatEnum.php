@@ -9,6 +9,8 @@ enum FormatEnum: string
     case GIF = 'gif';
     case WEBP = 'webp';
     case AVIF = 'avif';
+    case TIFF = 'tiff';
+    case HEIF = 'heif';
 
     public function getMimeType(): string
     {
@@ -18,6 +20,8 @@ enum FormatEnum: string
             self::GIF => 'image/gif',
             self::WEBP => 'image/webp',
             self::AVIF => 'image/avif',
+            self::TIFF => 'image/tiff',
+            self::HEIF => 'image/heif',
         };
     }
 
@@ -26,10 +30,6 @@ enum FormatEnum: string
         return $this->value;
     }
 
-    /**
-     * Получает Enum-кейс по расширению файла.
-     * Учитывает, что 'jpg' может соответствовать JPEG.
-     */
     public static function fromExtension(string $extension): self
     {
         $extension = strtolower($extension);

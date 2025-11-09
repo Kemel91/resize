@@ -73,6 +73,9 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
         return $image;
     }
 
+    /**
+     * @throws UnsupportedFormatImageException
+     */
     private function convertFormat(Vips\Image $image, FormatEnum $format): string
     {
         return match ($format) {
@@ -80,6 +83,8 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
             FormatEnum::PNG => $image->pngsave_buffer(),
             FormatEnum::GIF => $image->gifsave_buffer(),
             FormatEnum::WEBP => $image->webpsave_buffer(),
+            FormatEnum::TIFF => $image->tiffsave_buffer(),
+            FormatEnum::HEIF => $image->heifsave_buffer(),
             default => throw UnsupportedFormatImageException::make(),
         };
     }

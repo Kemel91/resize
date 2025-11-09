@@ -19,5 +19,3 @@ services:
     container_name: resizer-redis
     command: --save 120 1
     restart: always
-    ports:
-      - "6379:6379"

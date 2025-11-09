@@ -23,7 +23,7 @@ class IndexController
     public function index(): array
     {
         return [
-            'message' => "Hello from ImageKit. Use api.imagekit.ru for resize images.",
+            'message' => "Hello from ImageKit. Use api.imagekit.ru/resize for resize images.",
         ];
     }
 

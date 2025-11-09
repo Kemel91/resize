@@ -15,20 +15,15 @@ namespace App\Controller;
 use App\Processors\ImageVipsProcessor;
 use App\Request\ResizeRequest;
 use Hyperf\HttpMessage\Stream\SwooleStream;
-use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Http\Message\MessageInterface;
 
 class IndexController
 {
-    public function index(RequestInterface $request): array
+    public function index(): array
     {
-        $user = $request->input('user', 'Hyperf');
-        $method = $request->getMethod();
-
         return [
-            'method' => $method,
-            'message' => "Hello {$user}.",
+            'message' => "Hello from ImageKit. Use api.imagekit.ru for resize images.",
         ];
     }
 

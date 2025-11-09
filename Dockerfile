@@ -25,8 +25,8 @@ COPY docker/php.ini /etc/php83/conf.d/production.ini
 
 FROM docker.angie.software/angie:latest AS angie
 
-COPY ./docker/frontend/production/default.conf /etc/angie/http.d/default.conf
-COPY ./docker/frontend/production/angie.conf /etc/angie/angie.conf
+COPY ./docker/angie/default.conf /etc/angie/http.d/default.conf
+COPY ./docker/angie/angie.conf /etc/angie/angie.conf
 
 EXPOSE 80
 EXPOSE 443

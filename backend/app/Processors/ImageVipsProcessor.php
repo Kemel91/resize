@@ -38,7 +38,7 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
 
         $start = microtime(true);
 
-        $imageBuffer = Vips\Image::newFromBuffer($imageDownload->content, '', ["access" => Vips\Access::SEQUENTIAL]);
+        $imageBuffer = Vips\Image::newFromBuffer($imageDownload->content);
         echo 'From buffer - '.microtime(true) - $start.PHP_EOL;
         $startCrop = microtime(true);
         $imageCrop = $this->cropImage($imageBuffer, $input);
@@ -54,7 +54,6 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
             }
         } else {
             $buffer = $this->convertFormat($imageCrop, $input->format);
-            $imageCrop->webpsave('test.webp');
         }
         echo 'Convert - '.microtime(true) - $startConvert.PHP_EOL;
 

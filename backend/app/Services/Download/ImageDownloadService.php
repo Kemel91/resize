@@ -5,7 +5,9 @@ namespace App\Services\Download;
 
 use App\Helpers\HashHelper;
 use Hyperf\Guzzle\ClientFactory;
+use Psr\Http\Message\StreamInterface;
 use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 readonly class ImageDownloadService
 {
@@ -16,6 +18,10 @@ readonly class ImageDownloadService
     {
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws DownloadImageException
+     */
     public function download(string $url): Image
     {
         $key = HashHelper::hash($url);
@@ -25,13 +31,27 @@ readonly class ImageDownloadService
 
         $client = $this->clientFactory->create();
         try {
-            $image = $client->get($url)->getBody()->getContents();
+            $body = $client->get($url)->getBody();
         } catch (\Throwable) {
-            throw NotFoundImageException::make();
+            throw DownloadImageException::makeNotFound();
         }
+
+        $this->checkResponse($body);
+        $image = $body->getContents();
 
         $this->cache->set($key, $image, 5 * 60);
 
         return new Image($url, $image);
+    }
+
+    /**
+     * @throws DownloadImageException
+     */
+    private function checkResponse(StreamInterface $stream): void
+    {
+        $maxSize = 1024 * 1024 * 10;
+        if ($stream->getSize() > $maxSize) {
+            throw DownloadImageException::makeLargeSize();
+        }
     }
 }

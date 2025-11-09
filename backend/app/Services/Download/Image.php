@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services\Download;
 
 use App\Processors\Enums\FormatEnum;
+
 use function strlen;
 use const PATHINFO_EXTENSION;
 

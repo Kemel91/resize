@@ -3,7 +3,6 @@ FROM hyperf/hyperf:8.3-alpine-v3.22-swoole-v6 AS base
 RUN apk add --no-cache  \
     vips vips-dev \
     libheif \
-    libjpeg-turbo-dev \
     php83-ffi \
     && rm -rf /var/cache/apk/*
 

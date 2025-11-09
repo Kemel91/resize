@@ -27,13 +27,22 @@ jobs:
           push: true
           tags: kemel91/resize:latest
 
+      - name: Build and push Resize Angie image
+        uses: docker/build-push-action@v5
+        with:
+          file: ./Dockerfile
+          context: ./
+          target: angie
+          push: true
+          tags: kemel91/resize-backend-angie:latest
+
       - name: Copy docker-compose.yml to Server
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.production.yml, Dockerfile"
+          source: "docker-compose.production.yml"
           target: "/var/www/html"
 
       - name: Deploy to Server

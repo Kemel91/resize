@@ -23,6 +23,7 @@ class ResizeRequest extends FormRequest
             'height' => 'integer',
             'q' => 'integer|between:0,100',
             'cache' => 'integer',
+            'format' => 'string',
         ];
     }
 

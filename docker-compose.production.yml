@@ -14,7 +14,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - angie_acme_certs:/etc/angie/ssl-self-signed
+      - angie_acme_certs:/var/lib/angie/acme/letsencrypt
 
   redis:
     image: redis:8.2.2-bookworm

@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,6 +35,13 @@ jobs:
           target: angie
           push: true
           tags: kemel91/resize-backend-angie:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Copy docker-compose.yml to Server
         uses: appleboy/scp-action@v0.1.6

@@ -39,13 +39,9 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
         $start = microtime(true);
 
         $imageBuffer = Vips\Image::newFromBuffer($imageDownload->content);
-        echo 'From buffer - '.microtime(true) - $start.PHP_EOL;
-        $startCrop = microtime(true);
         $imageCrop = $this->cropImage($imageBuffer, $input);
-        echo 'Crop - '.microtime(true) - $startCrop.PHP_EOL;
 
         $imageFormat = $imageDownload->getFormat();
-        $startConvert = microtime(true);
         if ($input->format === null || $input->format === $imageFormat) {
             if ($imageBuffer === $imageCrop) {
                 $buffer = $imageDownload->content;
@@ -55,7 +51,6 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
         } else {
             $buffer = $this->convertFormat($imageCrop, $input->format);
         }
-        echo 'Convert - '.microtime(true) - $startConvert.PHP_EOL;
 
         if ($input->cache) {
             $this->cache->set($hash, $buffer, $input->cache);
@@ -75,9 +70,7 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
     private function cropImage(Vips\Image $image, ResizeInput $input): Vips\Image
     {
         if ($image->width > $input->width) {
-            $newHeight = (int) (($input->width / $image->width) * $image->height);
-
-            return $image->crop(0, 0, $input->width, $newHeight);
+            return $image->thumbnail_image($input->width);
         }
 
         return $image;

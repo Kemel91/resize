@@ -6,6 +6,7 @@ services:
     container_name: resizer-app
     ports:
       - "9501:9501"
+    restart: always
 
   angie:
     image: kemel91/resize-backend-angie:latest
@@ -15,6 +16,7 @@ services:
       - "443:443"
     volumes:
       - angie_acme_certs:/var/lib/angie/acme/letsencrypt
+    restart: always
 
   redis:
     image: redis:8.2.2-bookworm

@@ -18,7 +18,8 @@ class ResizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => 'required|url',
+            'url' => 'required_without:image|url',
+            'image' => 'required_without:url|image',
             'width' => 'required|integer',
             'height' => 'integer',
             'q' => 'integer|between:0,100',
@@ -31,6 +32,7 @@ class ResizeRequest extends FormRequest
     {
         return new ResizeInput(
             $this->input('url'),
+            $this->file('image'),
             (int) $this->input('width', 600),
             $this->has('height') ? (int) $this->input('height') : null,
             $this->has('q') ? (int) $this->input('q') : null,

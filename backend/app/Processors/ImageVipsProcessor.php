@@ -29,12 +29,12 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
 
     public function process(ResizeInput $input): ResizedImage
     {
-        $hash = HashHelper::hash($input->url.$input->width.$input->q.$input->format?->value);
+        $hash = HashHelper::hash($input->key());
         if ($input->cache && $cached = $this->cache->get($hash)) {
             return new ResizedImage($cached);
         }
 
-        $imageDownload = $this->imageDownloadService->download($input->url);
+        $imageDownload = $this->imageDownloadService->download($input);
 
         $start = microtime(true);
 
@@ -57,7 +57,7 @@ readonly class ImageVipsProcessor implements ImageProcessorInterface
         }
 
         $this->eventDispatcher->dispatch(new ResizedEvent(
-            $input->url,
+            $input->url ?? $input->image->getClientFilename(),
             $imageDownload->getSize(),
             strlen($buffer),
         ));

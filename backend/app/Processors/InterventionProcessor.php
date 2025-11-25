@@ -40,7 +40,7 @@ readonly class InterventionProcessor implements ImageProcessorInterface
             return new ResizedImage($cached);
         }
 
-        $imageDownload = $this->imageDownloadService->download($input->url);
+        $imageDownload = $this->imageDownloadService->download($input);
 
         $start = microtime(true);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services\Download;
 
 use App\Helpers\HashHelper;
+use App\Processors\Dto\ResizeInput;
 use Hyperf\Guzzle\ClientFactory;
 use Psr\Http\Message\StreamInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -22,8 +23,16 @@ readonly class ImageDownloadService
      * @throws InvalidArgumentException
      * @throws DownloadImageException
      */
-    public function download(string $url): Image
+    public function download(ResizeInput $input): Image
     {
+        if ($input->hasFile()) {
+            return new Image(
+                $input->image->getClientFilename(),
+                $input->image->getStream()->getContents(),
+            );
+        }
+
+        $url = $input->url;
         $key = HashHelper::hash($url);
         if ($image = $this->cache->get($key)) {
             return new Image($url, $image);

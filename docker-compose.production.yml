@@ -4,25 +4,36 @@ services:
   app:
     image: kemel91/resize:latest
     container_name: resizer-app
+    restart: unless-stopped
     ports:
       - "9501:9501"
-    restart: always
 
   angie:
     image: kemel91/resize-backend-angie:latest
     container_name: resizer-angie
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - angie_acme_certs:/var/lib/angie/acme/letsencrypt
-    restart: always
 
   redis:
     image: redis:8.2.2-bookworm
     container_name: resizer-redis
+    restart: unless-stopped
     command: --save 120 1
-    restart: always
+
+  manticore:
+    container_name: resizer-manticore
+    image: manticoresearch/manticore:latest
+    restart: unless-stopped
+    ports:
+      - "9306:9306"
+      - "9308:9308"
+    volumes:
+      - manticore-data:/var/lib/manticore
 
 volumes:
   angie_acme_certs:
+  manticore-data:
